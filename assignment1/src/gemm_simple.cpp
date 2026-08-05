@@ -5,7 +5,7 @@ void gemm_simple(){
     auto start = chrono::high_resolution_clock::now();
 
     int row1, common, col2;
-    ifstream file("assignment1/tests/gemm_input.txt");
+    ifstream file("assignment1/tests/gemm.txt");
     if (!file) {
         cerr << "Error opening gemm_input.txt\n";
     }

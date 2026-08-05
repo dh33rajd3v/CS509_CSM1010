@@ -3,13 +3,13 @@ using namespace std;
 
 // const int tile_size_x = 4;
 // const int tile_size_y = 4;
-const int tile_size = 4;
+const int tile_size = 3;
 
 
 void gemm_blocking(){
     auto start = chrono::high_resolution_clock::now();
 
-    ifstream file("assignment1/tests/gemm_input.txt");
+    ifstream file("assignment1/tests/gemm.txt");
 
     if (!file) {
         cerr << "Error opening gemm_input.txt\n";
