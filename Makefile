@@ -13,7 +13,10 @@ SRCS = \
     assignment1/assignment_1_driver.cpp \
     assignment1/src/gemm_blocking.cpp \
     assignment1/src/gemm_simple.cpp \
-    assignment1/src/csr_file.cpp
+    csr_file.cpp \
+    assignment2/assignment_2_driver.cpp \
+    assignment2/src/bf.cpp \
+    assignment2/src/fw.cpp 
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)

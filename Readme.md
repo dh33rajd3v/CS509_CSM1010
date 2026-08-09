@@ -17,6 +17,7 @@ To build and run the program:
 
 RESULTS
 
+# Assignment 1
 
 The following table compares the execution time of the simple matrix multiplication implementation with the blocking implementation for different matrix sizes and block sizes.
 
@@ -31,3 +32,5 @@ The following table compares the execution time of the simple matrix multiplicat
 | `gemm_256.txt` | 256 × 256 × 256 × 256 | Result matrix | Result matrix | 36.822 | 34.202 | 32 | Pass |
 | `gemm_512.txt` | 512 × 512 × 512 × 512 | Result matrix | Result matrix | 269.721 | 359.062 | 64 | Pass |
 | `gemm_1024.txt` | 1024 × 1024 × 1024 × 1024 | Result matrix | Result matrix | 1506.841 | 1064.335 | 64 | Pass |
+
+# Assignment 2

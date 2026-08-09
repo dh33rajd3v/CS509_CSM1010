@@ -5,7 +5,7 @@ using namespace std;
 void assignment1_func(){
     int choice;
 
-    cout<< "1. GEMM Simple" <<"\n2. GEMM Blocking"<<"\n3. CSR Representation\n";
+    cout<< "---------------------------\n\n1. GEMM Simple" <<"\n2. GEMM Blocking"<<"\n3. CSR Representation\n";
 
     cin>>choice;
 

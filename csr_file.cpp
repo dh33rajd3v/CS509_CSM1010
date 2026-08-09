@@ -1,12 +1,63 @@
-#include "../headers/csr_file.h"
+#include "csr_file.h"
+
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <chrono>
+#include <cstdlib>
 
 using namespace std;
 
-struct CSR {
-    vector<int> row_ptr;
-    vector<int> col_idx;
-    vector<int> values;
-};
+CSRGraph_withWeight readGraph_withWeight(
+    const string& filename,
+    int& source)
+{
+    ifstream inputFile(filename);
+
+    if (!inputFile)
+    {
+        cerr << "Unable to open file.\n";
+        exit(1);
+    }
+
+    CSRGraph_withWeight graph;
+
+    inputFile >> graph.vertices
+              >> graph.edges;
+
+    graph.row_ptr.push_back(0);
+
+    for (int i = 0; i < graph.vertices; i++)
+    {
+        int vertex;
+        int degree;
+
+        inputFile >> vertex >> degree;
+
+        for (int j = 0; j < degree; j++)
+        {
+            int neighbour;
+            int weight;
+
+            inputFile >> neighbour >> weight;
+
+            graph.col_idx.push_back(neighbour);
+            graph.values.push_back(weight);
+        }
+
+        graph.row_ptr.push_back(
+            static_cast<int>(graph.col_idx.size())
+        );
+    }
+
+    string label;
+    inputFile >> label >> source;
+
+    inputFile.close();
+
+    return graph;
+}
 
 void CSR_func() {
 
