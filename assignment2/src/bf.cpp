@@ -1,73 +1,8 @@
 #include "../headers/bf.h"
 #include "../../csr_file.h"
+#include <filesystem>
 
 using namespace std;
-
-// struct CSRGraph_withWeight
-// {
-//     int vertices;
-//     int edges;
-
-//     vector<int> row_ptr;
-//     vector<int> col_idx;
-//     vector<int> values;
-// };
-
-// CSRGraph_withWeight readGraph_withWeight(
-//     const string& filename,
-//     int& source)
-// {
-//     ifstream inputFile(filename);
-
-//     if (!inputFile)
-//     {
-//         cerr << "Unable to open file.\n";
-//         exit(1);
-//     }
-
-//     CSRGraph_withWeight graph;
-
-//     inputFile >> graph.vertices
-//               >> graph.edges;
-
-//     graph.row_ptr.push_back(0);
-
-//     for (int i = 0; i < graph.vertices; i++)
-//     {
-//         int vertex;
-//         int degree;
-//         int weight;
-
-//         inputFile >> vertex >> degree;
-
-//         for (int j = 0; j < degree; j++)
-//         {
-//             int neighbour;
-
-//             inputFile >> neighbour >> weight;
-
-//             graph.col_idx.push_back(
-//                 neighbour
-//             );
-
-//             graph.values.push_back(
-//                 weight
-//             );
-//         }
-
-//         graph.row_ptr.push_back(
-//             graph.col_idx.size()
-//         );
-//     }
-
-//     string label;
-
-//     inputFile >> label >> source;
-
-//     inputFile.close();
-
-//     return graph;
-// }
 
 void bellman_ford(
     const CSRGraph_withWeight& graph,
@@ -113,7 +48,7 @@ void bellman_ford(
     }
 
     
-    for (int vertex = 0; vertex < graph.vertices; vertex++)   // One more pass to detect a negative-weight cycle
+    for (int vertex = 0; vertex < graph.vertices; vertex++)  
     {
         if (distances[vertex] == INT_MAX)
             continue;
@@ -128,7 +63,7 @@ void bellman_ford(
             if (distances[neighbour] >
                 distances[vertex] + weight)
             {
-                is_neg=true;        // Negative-weight cycle reachable from source
+                is_neg=true;       
             }
         }
     }
@@ -156,7 +91,7 @@ void bellman_ford(
 
         cout<<"Negative cycle: none";
     }
-    cout<<"\nExecution time: "<<duration.count() <<" microseconds\n";
+    cout<<"\nExecution time: "<<duration.count() <<" * 10^-3 milliseconds\n";
 }
 
 
@@ -164,9 +99,51 @@ void run_bf()
 {
     int source;
 
-    CSRGraph_withWeight graph =
-        readGraph_withWeight("assignment2/tests/bf_5.txt", source);
+    string folder = "assignment2/tests/bellman_ford_tests";
+    vector<string> files;
 
+    for (const auto& entry : filesystem::directory_iterator(folder))
+    {
+        if (entry.is_regular_file())
+        {
+            files.push_back(entry.path().string());
+        }
+    }
+
+    if (files.empty())
+    {
+        cout << "No files found in " << folder << "\n";
+        return;
+    }
+
+    cout << "Bellman-Ford test files:\n\n";
+
+    for (size_t i = 0; i < files.size(); i++)
+    {
+        cout << i + 1 << ". "
+             << filesystem::path(files[i]).filename().string()
+             << "\n";
+    }
+
+    int choice;
+
+    cout << "\nEnter serial number: ";
+    cin >> choice;
+
+    if (choice < 1 || static_cast<size_t>(choice) > files.size())
+    {
+        cout << "Invalid serial number.\n";
+        return;
+    }
+
+    string selectedFile = files[choice - 1];
+
+    cout << "Selected file: "
+         << filesystem::path(selectedFile).filename().string()
+         << "\n\n";
+
+    CSRGraph_withWeight graph =
+        readGraph_withWeight(selectedFile, source);
 
     bellman_ford(
         graph,

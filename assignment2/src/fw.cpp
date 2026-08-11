@@ -1,14 +1,55 @@
 #include "../headers/fw.h"
 #include <chrono>
+#include <filesystem>
 
 using namespace std;
 
 void floyd_w(){
 
-    auto start = chrono::high_resolution_clock::now();
-
     int vertices;
-    string filename = "assignment2/tests/fw_5.txt";
+    string folder = "assignment2/tests/floydwarshall_tests";
+    vector<string> files;
+
+    for (const auto& entry : filesystem::directory_iterator(folder))
+    {
+        if (entry.is_regular_file())
+        {
+            files.push_back(entry.path().string());
+        }
+    }
+
+    if (files.empty())
+    {
+        cout << "No files found in " << folder << "\n";
+        return;
+    }
+
+    cout << "Floyd-Warshall test files:\n\n";
+
+    for (size_t i = 0; i < files.size(); i++)
+    {
+        cout << i + 1 << ". "
+             << filesystem::path(files[i]).filename().string()
+             << "\n";
+    }
+
+    int choice;
+
+    cout << "\nEnter serial number: ";
+    cin >> choice;
+
+    if (choice < 1 || static_cast<size_t>(choice) > files.size())
+    {
+        cout << "Invalid serial number.\n";
+        return;
+    }
+
+    string filename = files[choice - 1];
+
+    cout << "Selected file: "
+         << filesystem::path(filename).filename().string()
+         << "\n\n";
+
     ifstream inputFile(filename);
 
     if (!inputFile)
@@ -33,6 +74,8 @@ void floyd_w(){
                 fw_matrix[i][j] = stoi(value);
         }
     }
+
+    auto start = chrono::high_resolution_clock::now();
 
     for (int k = 0; k < vertices; ++k) {
         for (int i = 0; i < vertices; ++i) {
@@ -72,11 +115,6 @@ void floyd_w(){
         cout<<"Negative cycle: none\n";
     }
 
-    cout<<"\nExecution time: "<<duration.count() <<" microseconds\n";
+    cout<<"\nExecution time: "<<duration.count() <<" * 10^-3 milliseconds\n";
 
 }
-
-// int main(){
-//     floyd_w();
-//     return 0;
-// }
