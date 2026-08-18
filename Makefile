@@ -16,7 +16,10 @@ SRCS = \
     csr_file.cpp \
     assignment2/assignment_2_driver.cpp \
     assignment2/src/bf.cpp \
-    assignment2/src/fw.cpp 
+    assignment2/src/fw.cpp \
+    assignment3/assignment_3_driver.cpp \
+    assignment3/src/kruskal.cpp \
+    assignment3/src/prim.cpp \
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
