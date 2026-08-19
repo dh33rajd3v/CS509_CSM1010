@@ -37,11 +37,9 @@ public:
         int rootA = find(a);
         int rootB = find(b);
 
-        // Already in the same component
         if (rootA == rootB)
             return false;
 
-        // Union by rank
         if (rank[rootA] < rank[rootB])
         {
             parent[rootA] = rootB;
@@ -110,12 +108,12 @@ void kruskal_fn()
     CSRGraph_withWeight graph =
         readGraph_withWeight(selectedFile, source);
 
+    auto start = chrono::high_resolution_clock::now();
+
+
 
     vector<Edge> edges;
 
-    // ----------------------------------------------
-    // Extract edges from CSR
-    // ----------------------------------------------
 
     for (int u = 0; u < graph.vertices; u++)
     {
@@ -138,9 +136,6 @@ void kruskal_fn()
     }
 
 
-    // ----------------------------------------------
-    // Sort edges by increasing weight
-    // ----------------------------------------------
 
     sort(edges.begin(), edges.end(),
         [](const Edge& a, const Edge& b)
@@ -149,9 +144,7 @@ void kruskal_fn()
         });
 
 
-    // ----------------------------------------------
-    // DSU
-    // ----------------------------------------------
+
 
     DSU dsu(graph.vertices);
 
@@ -160,9 +153,6 @@ void kruskal_fn()
     long long totalWeight = 0;
 
 
-    // ----------------------------------------------
-    // Kruskal's algorithm
-    // ----------------------------------------------
 
     for (const Edge& edge : edges)
     {
@@ -171,7 +161,6 @@ void kruskal_fn()
             mst.push_back(edge);
             totalWeight += edge.weight;
 
-            // MST has V-1 edges
             if ((int)mst.size() == graph.vertices - 1)
                 break;
         }
@@ -186,6 +175,8 @@ void kruskal_fn()
         return;
     }
 
+    auto end = chrono::high_resolution_clock::now();
+    auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
 
     cout<<"Algorithm: Kruskal's MST\n";
     cout << "MST Edges:\n";
@@ -203,6 +194,8 @@ void kruskal_fn()
     cout << "\nTotal MST Weight: "
          << totalWeight
          << '\n';
+
+    cout<<"\nExecution time: "<<duration.count() <<" * 10^-3 milliseconds\n";
 
     
 }

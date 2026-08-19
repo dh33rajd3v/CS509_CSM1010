@@ -65,11 +65,11 @@ void prim_fn()
         readGraph_withWeight(selectedFile, source);
 
 
+    auto start = chrono::high_resolution_clock::now();
+
     vector<Edge> edges;
 
-    // ----------------------------------------------
-    // Extract edges from CSR
-    // ----------------------------------------------
+
 
     for (int u = 0; u < graph.vertices; u++)
     {
@@ -81,9 +81,6 @@ void prim_fn()
             int v = graph.col_idx[i];
             int weight = graph.values[i];
 
-            // For an undirected graph, CSR contains
-            // both (u,v) and (v,u).
-            // Keep only one copy.
             if (u < v)
             {
                 edges.push_back({u, v, weight});
@@ -101,24 +98,11 @@ void prim_fn()
         return;
     }
 
-
-    // --------------------------------------------------
-    // key[v] = minimum edge weight needed to connect v
-    // --------------------------------------------------
-
     vector<int> key(V, INT_MAX);
 
-    // parent[v] = vertex through which v is connected
-    // to the MST
     vector<int> parent(V, -1);
 
-    // Whether vertex has already been added to MST
     vector<bool> inMST(V, false);
-
-
-    // --------------------------------------------------
-    // Min priority queue
-    // --------------------------------------------------
 
     priority_queue<
         Edge,
@@ -127,9 +111,6 @@ void prim_fn()
     > pq;
 
 
-    // --------------------------------------------------
-    // Start Prim's algorithm from vertex 0
-    // --------------------------------------------------
 
     key[0] = 0;
 
@@ -141,9 +122,7 @@ void prim_fn()
     long long totalWeight = 0;
 
 
-    // --------------------------------------------------
-    // Prim's algorithm
-    // --------------------------------------------------
+
 
     while (!pq.empty())
     {
@@ -153,16 +132,13 @@ void prim_fn()
         int u = current.vertex;
 
 
-        // Ignore if already included
         if (inMST[u])
             continue;
 
 
-        // Add vertex to MST
         inMST[u] = true;
 
 
-        // The first vertex has no parent
         if (current.parent != -1)
         {
             mst.push_back({
@@ -175,9 +151,6 @@ void prim_fn()
         }
 
 
-        // --------------------------------------------------
-        // Examine all neighbours of u
-        // --------------------------------------------------
 
         int start = graph.row_ptr[u];
         int end = graph.row_ptr[u + 1];
@@ -188,7 +161,6 @@ void prim_fn()
             int weight = graph.values[i];
 
 
-            // If v is not in MST and this edge is better
             if (!inMST[v] && weight < key[v])
             {
                 key[v] = weight;
@@ -204,10 +176,6 @@ void prim_fn()
     }
 
 
-    // --------------------------------------------------
-    // Check whether graph is connected
-    // --------------------------------------------------
-
     if ((int)mst.size() != V - 1)
     {
         cout << "MST does not exist.\n";
@@ -215,10 +183,8 @@ void prim_fn()
         return;
     }
 
-
-    // --------------------------------------------------
-    // Print MST
-    // --------------------------------------------------
+    auto end = chrono::high_resolution_clock::now();
+    auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
 
     cout << "Algorithm: Prim's MST \n";
     cout << "MST Edges:\n";
@@ -233,8 +199,9 @@ void prim_fn()
              << '\n';
     }
 
-
     cout << "\nTotal MST Weight: "
          << totalWeight
          << '\n';
+
+    cout<<"\nExecution time: "<<duration.count() <<" * 10^-3 milliseconds\n";
 }

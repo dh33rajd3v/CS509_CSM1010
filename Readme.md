@@ -47,3 +47,14 @@ The following table compares the execution time of the simple matrix multiplicat
 | Floyd-Warshall | `fw_500.txt` | 500 | N/A | N/A | No | Distance matrix | — | `124.664 ms` | Pass |
 | Floyd-Warshall | `fw_1000.txt` | 1,000 | N/A | N/A | No | Distance matrix | — | `927.971 ms` | Pass |
 | Floyd-Warshall | `fw_2000.txt` | 2,000 | N/A | N/A | Yes | Distance matrix | — | `6750.685 ms` | Pass |
+
+# Assignment 3
+| File | V | E | Exp. Wt. | Kruskal Wt. | Prim Wt. | Kruskal Time | Prim Time | Equal? | Status |
+|---|---:|---:|---:|---:|---:|---:|---:|:---:|:---:|
+| `mst_5.txt` | 5 | 7 | — | 16 | 16 | 0.006 ms | 0.006 ms | yes | Pass |
+| `mst_10.txt` | 10 | 20 | — | -6080 | -6080 | 0.009 ms | 0.007 ms | yes | Pass |
+| `mst_100.txt` | 100 | 200 | — | -45790 | -45790 | 0.025 ms | 0.029 ms | yes | Pass |
+| `mst_1000.txt` | 1000 | 2000 | — | -411775 | -411775 | 0.333 ms | 0.228 ms | yes | Pass |
+| `mst_10000.txt` | 10000 | 20000 | — | -4199492 | -4199492 | 2.966 ms | 3.266 ms | yes | Pass |
+| `mst_50000.txt` | 50000 | 100000 | — | -21428568 | -21428568 | 12.773 ms | 17.645 ms | yes | Pass |
+| `mst_100000.txt` | 100000 | 200000 | — | -43034862 | -43034862 | 24.051 ms | 38.782 ms | yes | Pass |
